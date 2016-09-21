@@ -1,22 +1,43 @@
+import animate from './lib/animate';
+
 const CONFIG = {
-  amount: 20,
-  speed: 100,
+  amount: 15,
+  speed: 10,
   offset: 100,
-  length: 5000,
-  message: 'THE GREAT EDUCATIONAL VALUE OF THE WAR AGAINST CHRISTENDOM LIES IN THE ABSOLUTE TRUTHLESSNESS OF THE PRIEST. SUCH PURITY IS RARE ENOUGH. THE “MAN OF GOD” IS ENTIRELY INCAPABLE OF HONESTY, AND ONLY ARISES AT THE POINT WHERE TRUTH IS DEFACED BEYOND ALL LEGIBILITY. LIES ARE HIS ENTIRE METABOLISM, THE AIR HE BREATHES, HIS BREAD AND HIS WINE. HE CANNOT COMMENT UPON THE WEATHER WITHOUT A SECRET AGENDA OF DECEIT. NO WORD, GESTURE, OR PERCEPTION IS SLIGHT ENOUGH TO ESCAPE HIS EXTRAVAGANT REFLEX OF FALSIFICATION, AND OF THE LIES IN CIRCULATION HE WILL INSTINCTIVELY SEIZE ON THE GROSSEST, THE MOST OBSCENE AND OPPRESSIVE TRAVESTY. ANY PROPOSITION PASSING THE LIPS OF A PRIEST IS NECESSARILY TOTALLY FALSE, EXCEPTING ONLY INSIDIOUSES WHOSE MESSAGE IS MOMENTARILY MISUNDERSTOOD. IT IS IMPOSSIBLE TO DENY HIM WITHOUT DISCOVERING SOME BURIED FRAGMENT OR REALITY. THERE IS NO TRUTH THAT IS NOT WAR AGAINST THEOLOGY, AND EVEN THE WORD “TRUTH” HAS BEEN PLASTERED BY THE SPITTLE OF PRIESTCRAFT. IT CANNOT BE ATTACHMENT TO SOME ALTERNATIVE CONVICTION THAT CUTS HERE, BUT ONLY RELENTLESS REFUSAL OF WHAT HAS BEEN TOLD. THE DANGEROUS INFIDELS BYPASS DIALECTICS. IT IS THE SCEPTIC WHO ASSASSINATES THE LIE. WHENEVER ITS NAME HAS BEEN ANYTHING BUT A JEST, PHILOSOPHY HAS BEEN HAUNTED BY A SUBTERRANEAN QUESTION: WHAT IF KNOWLEDGE WERE A MEANS TO DEEPEN UNKNOWING? IT IS THIS THOUGHT ALONE THAT HAS DIFFERENTIATED IT FROM THE SHALLOW THINGS OF THE EARTH.',
+  length: 15000,
+  message: `
+    SOME, too fragile for winter winds,
+    The thoughtful grave encloses,—
+    Tenderly tucking them in from frost
+    Before their feet are cold.
+
+    Never the treasures in her nest
+    The cautious grave exposes,
+    Building where schoolboy dare not look
+    And sportsman is not bold.
+
+    This covert have all the children
+    Early aged, and often cold,—
+    Sparrows unnoticed by the Father;
+    Lambs for whom time had not a fold.
+  `
+};
+
+const STYLE = {
+  background_color: 'darkblue',
+  color_start: 'blue',
+  color_end: 'red',
+  font_style: 'normal',
+  font_weight: 'bold',
+  font_family: 'serif',
+  font_size: '16px',
+  animation_duration: '5s',
 };
 
 const STATE = {
   current: [0, 0],
   previous: [0, 0],
   message: [],
-};
-
-const img = ({ width, height, src, name }) => {
-  const i = new Image(width, height);
-  i.src = src;
-  i.className = name;
-  return i;
 };
 
 const next = ([top, left], angle) => ([
@@ -59,15 +80,27 @@ const render = () => {
   letter.className = 'letter';
   letter.style.top = `${STATE.current[0]}px`;
   letter.style.left = `${STATE.current[1]}px`;
-  // letter.style.transform = `rotate(${STATE.angle + 90}deg)`;
+  letter.style.animationDuration = STYLE.animation_duration;
+
+  if (CONFIG.rotate) letter.style.transform = `rotate(${STATE.angle + 90}deg)`;
+
   letter.innerHTML = take();
   document.body.appendChild(letter);
   setTimeout(() => {
-    document.body.removeChild(letter)
+    document.body.removeChild(letter);
   }, CONFIG.length);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.style.backgroundColor = STYLE.background_color;
+  document.body.style.color = STYLE.color_end;
+  document.body.style.fontFamily = STYLE.font_family;
+  document.body.style.fontStyle = STYLE.font_style;
+  document.body.style.fontWeight = STYLE.font_weight;
+  document.body.style.fontSize = STYLE.font_size;
+
+  animate(STYLE.color_start, STYLE.color_end);
+
   setInterval(() => {
     STATE.previous = STATE.current;
     step();
