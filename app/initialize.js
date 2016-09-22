@@ -3,7 +3,7 @@ import animate from './lib/animate';
 const CONFIG = {
   amount: 15,
   speed: 10,
-  offset: 100,
+  offset: 1,
   length: 15000,
   message: `
     SOME, too fragile for winter winds,
