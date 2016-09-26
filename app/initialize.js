@@ -1,3 +1,5 @@
+import assign from 'object-assign';
+import params from './lib/params';
 import animate from './lib/animate';
 
 const CONFIG = {
@@ -34,6 +36,8 @@ const STYLE = {
   animation_duration: '5s',
 };
 
+const PARAMS = params(assign({}, STYLE, CONFIG));
+
 const STATE = {
   current: [0, 0],
   previous: [0, 0],
@@ -41,21 +45,21 @@ const STATE = {
 };
 
 const next = ([top, left], angle) => ([
-  Math.round(Math.sin(angle * Math.PI / 180) * CONFIG.amount + top),
-  Math.round(Math.cos(angle * Math.PI / 180) * CONFIG.amount + left),
+  Math.round(Math.sin(angle * Math.PI / 180) * PARAMS.amount + top),
+  Math.round(Math.cos(angle * Math.PI / 180) * PARAMS.amount + left),
 ]);
 
 const rand = (min, max) =>
   Math.random() * (max - min) + min;
 
 const start = () => ([
-  Math.floor(rand(0, window.innerHeight - CONFIG.offset)),
-  Math.floor(rand(0, window.innerWidth - CONFIG.offset)),
+  Math.floor(rand(0, window.innerHeight - PARAMS.offset)),
+  Math.floor(rand(0, window.innerWidth - PARAMS.offset)),
 ]);
 
 const isOutOfBounds = () => (
-  (STATE.previous[0] >= (window.innerHeight - CONFIG.offset) || STATE.previous[0] <= CONFIG.offset) ||
-  (STATE.previous[1] >= (window.innerWidth - CONFIG.offset) || STATE.previous[1] <= CONFIG.offset)
+  (STATE.previous[0] >= (window.innerHeight - PARAMS.offset) || STATE.previous[0] <= PARAMS.offset) ||
+  (STATE.previous[1] >= (window.innerWidth - PARAMS.offset) || STATE.previous[1] <= PARAMS.offset)
 );
 
 const step = () => {
@@ -69,7 +73,7 @@ const step = () => {
 
 const take = () => {
   if (STATE.message.length === 0) {
-    STATE.message = CONFIG.message.split('');
+    STATE.message = PARAMS.message.split('');
   }
 
   return STATE.message.shift();
@@ -82,28 +86,33 @@ const render = () => {
   letter.style.left = `${STATE.current[1]}px`;
   letter.style.animationDuration = STYLE.animation_duration;
 
-  if (CONFIG.rotate) letter.style.transform = `rotate(${STATE.angle + 90}deg)`;
+  if (PARAMS.rotate) letter.style.transform = `rotate(${STATE.angle + 90}deg)`;
 
   letter.innerHTML = take();
   document.body.appendChild(letter);
   setTimeout(() => {
     document.body.removeChild(letter);
-  }, CONFIG.length);
+  }, PARAMS.length);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.style.backgroundColor = STYLE.background_color;
-  document.body.style.color = STYLE.color_end;
-  document.body.style.fontFamily = STYLE.font_family;
-  document.body.style.fontStyle = STYLE.font_style;
-  document.body.style.fontWeight = STYLE.font_weight;
-  document.body.style.fontSize = STYLE.font_size;
+  if (PARAMS.debug) {
+    document.body.innerHTML = JSON.stringify(PARAMS, undefined, 2);
+    return;
+  }
 
-  animate(STYLE.color_start, STYLE.color_end);
+  document.body.style.backgroundColor = PARAMS.background_color;
+  document.body.style.color = PARAMS.color_end;
+  document.body.style.fontFamily = PARAMS.font_family;
+  document.body.style.fontStyle = PARAMS.font_style;
+  document.body.style.fontWeight = PARAMS.font_weight;
+  document.body.style.fontSize = PARAMS.font_size;
+
+  animate(PARAMS.color_start, PARAMS.color_end);
 
   setInterval(() => {
     STATE.previous = STATE.current;
     step();
     render();
-  }, CONFIG.speed);
+  }, PARAMS.speed);
 });
