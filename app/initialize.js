@@ -7,30 +7,15 @@ const CONFIG = {
   speed: 10,
   offset: 1,
   length: 15000,
-  message: `
-    SOME, too fragile for winter winds,
-    The thoughtful grave encloses,—
-    Tenderly tucking them in from frost
-    Before their feet are cold.
-
-    Never the treasures in her nest
-    The cautious grave exposes,
-    Building where schoolboy dare not look
-    And sportsman is not bold.
-
-    This covert have all the children
-    Early aged, and often cold,—
-    Sparrows unnoticed by the Father;
-    Lambs for whom time had not a fold.
-  `
+  message: '123456789'
 };
 
 const STYLE = {
-  background_color: 'darkblue',
-  color_start: 'blue',
-  color_end: 'red',
+  background_color: 'white',
+  color_start: 'black',
+  color_end: 'black',
   font_style: 'normal',
-  font_weight: 'bold',
+  font_weight: 'normal',
   font_family: 'serif',
   font_size: '16px',
   animation_duration: '5s',
