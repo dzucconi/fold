@@ -69,7 +69,7 @@ const render = () => {
   letter.className = 'letter';
   letter.style.top = `${STATE.current[0]}px`;
   letter.style.left = `${STATE.current[1]}px`;
-  letter.style.animationDuration = STYLE.animation_duration;
+  letter.style.animationDuration = PARAMS.animation_duration;
 
   if (PARAMS.rotate) letter.style.transform = `rotate(${STATE.angle + 90}deg)`;
 
